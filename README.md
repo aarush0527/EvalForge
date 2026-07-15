@@ -1,7 +1,6 @@
 # EvalForge
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]()
 [![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen)]()
 [![Code Style](https://img.shields.io/badge/Style-Black-black)]()
 [![Status](https://img.shields.io/badge/Status-Active-success)]()
