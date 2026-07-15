@@ -196,7 +196,7 @@ EvalForge/
 Clone the repository
 
 ```bash
-git clone https://github.com/<username>/EvalForge.git
+git clone https://github.com/aarush0527/EvalForge.git
 
 cd EvalForge
 ```
