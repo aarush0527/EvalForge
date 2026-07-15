@@ -1,0 +1,14 @@
+# Bookkeeping only: this project judges pre-generated outputs (bring-your-own,
+# matching the {input, system_prompt, model_output} schema in the suite
+# files) rather than calling a generator itself. This file records which
+# model/family actually produced output_a in comparison_suite.yaml, so the
+# judge can independently know "am I the same family as the generator?"
+# for the self-enhancement check in bias_metrics.family_mismatch_warning.
+#
+# Uses a real Groq-hosted model here (free tier) rather than a paid API,
+# since generating comparison_suite.yaml's outputs doesn't need to be
+# expensive to be a genuine "prompt v1 vs v2" comparison.
+provider: groq
+model: llama-3.3-70b-versatile
+family: meta-llama
+description: "Prompt v1 -- baseline system prompt, terse style."

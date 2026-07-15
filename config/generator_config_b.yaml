@@ -1,0 +1,8 @@
+# See generator_config_a.yaml -- same idea, for output_b in comparison_suite.yaml.
+# Deliberately a DIFFERENT Groq model family than generator_config_a.yaml
+# (Qwen vs Llama), so a real judge/generator self-enhancement check has
+# something genuine to compare against either side.
+provider: groq
+model: qwen/qwen3-32b
+family: qwen
+description: "Prompt v2 -- revised system prompt, asks for a brief justification before the answer."

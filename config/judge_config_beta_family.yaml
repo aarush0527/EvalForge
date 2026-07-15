@@ -1,0 +1,19 @@
+# The mirror-image of judge_config_same_family.yaml -- biased toward
+# beta-style output instead of alpha-style. On its own this judge is just as
+# biased as the alpha-family judge, in the opposite direction. Averaging it
+# WITH the alpha-family judge (see cli.py self-enhancement-experiment,
+# "ensemble" arm) is what tests whether an ensemble of differently-biased
+# judges cancels out to something closer to neutral, as the brief suggests
+# ("...or an ensemble").
+
+provider: simulated
+model: simulated-judge-beta-family
+family: beta
+
+mitigations: true
+self_family_bias_marker: "Here's the summary:"
+
+temperature: 0.0
+max_tokens: 1024
+max_parse_retries: 1
+rubric_path: config/rubric.yaml

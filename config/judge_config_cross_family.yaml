@@ -1,0 +1,26 @@
+# Cross-family judge for the self-enhancement experiment: a third "family"
+# (gamma) with no self_family_bias_marker at all, so it has no built-in
+# stylistic affinity to either the alpha-style or beta-style generator in
+# suites/self_enhancement_suite.yaml. Same rubric, same mitigations flag,
+# same everything else as judge_config_same_family.yaml -- the ONLY
+# difference is family/marker, which isolates self-enhancement bias as the
+# one variable under test.
+#
+# Real-Groq equivalent (genuinely different family from whatever generated
+# the outputs being judged, e.g. judging Llama-generated output_a/output_b
+# with a Qwen-family judge instead):
+#   provider: groq
+#   model: qwen/qwen3-32b
+#   family: qwen
+
+provider: simulated
+model: simulated-judge-gamma-family
+family: gamma
+
+mitigations: true
+self_family_bias_marker: null   # no affinity to either generator's style
+
+temperature: 0.0
+max_tokens: 1024
+max_parse_retries: 1
+rubric_path: config/rubric.yaml

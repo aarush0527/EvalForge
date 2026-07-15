@@ -1,0 +1,8 @@
+# Optional override/extension of the default price table in
+# src/judge_pipeline/cost.py. Anything listed here takes precedence.
+# All rates in USD per 1,000,000 tokens. Update when provider pricing changes
+# -- that's the whole point of keeping this out of the code.
+#
+# claude-sonnet-5:
+#   input_per_mtok: 3.00   # standard rate from 2026-09-01, after intro pricing ends
+#   output_per_mtok: 15.00

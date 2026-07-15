@@ -1,0 +1,24 @@
+# The "first-draft" judge: same rubric, but NO anti-bias prompt instructions,
+# NO calibration anchors, and (critically) pairwise runs are only meaningful
+# with both orders -- this file alone doesn't skip that, bias_experiment.py
+# does, to isolate the effect of the prompt itself. This exists purely to
+# produce a real before/after comparison against judge_config.yaml.
+#
+# To run this for real on Groq's free tier, same model/token budget as
+# judge_config.yaml (only mitigations + rubric differ, not the model):
+#   provider: groq
+#   model: openai/gpt-oss-120b
+#   family: openai-oss
+#   max_tokens: 4096
+#   reasoning_effort: low
+
+provider: groq
+model: openai/gpt-oss-120b
+family: openai-oss
+
+mitigations: false
+temperature: 0.0
+max_tokens: 4096
+reasoning_effort: low
+max_parse_retries: 1
+rubric_path: config/rubric.yaml

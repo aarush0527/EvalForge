@@ -1,0 +1,34 @@
+# Same-family judge for the self-enhancement experiment (cli.py
+# self-enhancement-experiment). This judge shares a "family" with the
+# alpha-style generator in suites/self_enhancement_suite.yaml -- the
+# self_family_bias_marker is a synthetic stand-in for "this judge recognizes
+# and subtly trusts its own family's writing style," the mechanism behind
+# real self-enhancement bias. mitigations stays ON here on purpose: this
+# experiment exists specifically to show that prompt-level anti-bias
+# language (mitigations: true) does NOT fix self-enhancement bias -- only
+# using a different-family judge does.
+#
+# This stays on the synthetic SimulatedProvider marker (rather than a real
+# Groq model) on purpose: it's what lets output_a/output_b be verified
+# quality-matched (see suites/self_enhancement_suite.yaml), isolating style
+# as the only variable. A real-model version of "same family" would look
+# like judging Llama-generated output with a Llama-family judge, e.g.:
+#   provider: groq
+#   model: llama-3.3-70b-versatile
+#   family: meta-llama
+# ...judging a suite where output_a also came from a meta-llama model
+# (e.g. llama-3.1-8b-instant) -- genuine, but confounded by real quality
+# differences between the two Llama checkpoints, which this controlled
+# suite deliberately avoids.
+
+provider: simulated
+model: simulated-judge-alpha-family
+family: alpha
+
+mitigations: true
+self_family_bias_marker: "To be direct:"   # alpha generator's synthetic style tell
+
+temperature: 0.0
+max_tokens: 1024
+max_parse_retries: 1
+rubric_path: config/rubric.yaml

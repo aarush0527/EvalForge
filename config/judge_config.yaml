@@ -1,0 +1,29 @@
+# Judge configuration.
+#
+# provider: groq | anthropic | openai | simulated
+#   - groq is this project's primary, free-tier-friendly option. Needs
+#     GROQ_API_KEY in the environment (no credit card required for a free
+#     key: https://console.groq.com/keys). Uncomment the block below to
+#     actually use it.
+#   - anthropic / openai are optional alternatives if you happen to have
+#     those keys; not required by this project.
+#   - simulated is a documented, deterministic stand-in used when no API
+#     key is available (see src/judge_pipeline/providers.py). Swap
+#     provider/model below to point this at a real model -- nothing else
+#     in the pipeline changes.
+#
+# To run this for real, on Groq's free tier:
+#   provider: groq
+#   model: openai/gpt-oss-120b
+#   family: openai-oss
+
+provider: groq
+model: openai/gpt-oss-120b
+family: openai-oss
+
+mitigations: true
+temperature: 0.0
+max_tokens: 4096
+reasoning_effort: low
+max_parse_retries: 1
+rubric_path: config/rubric.yaml
