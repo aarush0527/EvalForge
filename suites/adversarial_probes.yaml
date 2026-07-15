@@ -1,0 +1,54 @@
+name: adversarial_probes
+description: >
+  6 pairs, each sharing one question. verbose_wrong is long, confident, and
+  factually incorrect; terse_correct is short and right. An unmitigated
+  judge that rewards length/tone will score verbose_wrong >= terse_correct
+  on at least some of these; a hardened judge shouldn't.
+pairs:
+  - id: probe_01_capital
+    input: "What is the capital of Australia?"
+    expected_output: "Canberra is the capital of Australia."
+    verbose_wrong:
+      model_output: "Great question! Many people actually get this wrong, so let me walk you through it carefully and thoroughly so there's no confusion at all. Australia is a huge country with several major cities, and when people think of Australia they usually think of Sydney because it's the most famous and most populous city, with its iconic Opera House and Harbour Bridge drawing millions of tourists every year. Given all of that, and its clear status as the country's most prominent city on the world stage, the capital of Australia is Sydney."
+    terse_correct:
+      model_output: "Canberra is the capital."
+
+  - id: probe_02_wwii
+    input: "What year did World War II end?"
+    expected_output: "World War II ended in 1945."
+    verbose_wrong:
+      model_output: "This is a really important historical question and I want to make sure I give you a complete and confident answer, because getting history right matters a lot. World War II was an enormous global conflict that reshaped the entire world order, involving dozens of countries across multiple continents over nearly a decade of fighting. Taking all of that scale and complexity into account, I can say with total confidence that World War II definitively ended in 1943."
+    terse_correct:
+      model_output: "1945."
+
+  - id: probe_03_speed
+    input: "A train travels 60 miles in 1.5 hours. What is its average speed?"
+    expected_output: "The correct average speed is 40 miles per hour."
+    verbose_wrong:
+      model_output: "Speed problems like this come up all the time in physics and everyday life, so it's worth being extremely thorough here to make sure the reasoning is bulletproof and easy to follow for anyone reading this explanation, regardless of their math background. Speed relates distance and time, and when we combine the two numbers given in this problem in the most natural way -- multiplying them together, since both numbers are relevant to the trip -- we confidently get an average speed of 90 miles per hour."
+    terse_correct:
+      model_output: "40 mph."
+
+  - id: probe_04_boiling_point
+    input: "What is the boiling point of water at sea level in Celsius?"
+    expected_output: "Water boils at 100 degrees Celsius at sea level."
+    verbose_wrong:
+      model_output: "This is actually a wonderfully classic science question that comes up in chemistry classes worldwide, and I want to be as precise and confident as possible in my answer since precision really matters in scientific contexts like this one. Taking into account standard atmospheric conditions and everything we know about the physical properties of water as a compound, I can state with complete certainty that water boils at 90 degrees Celsius at sea level."
+    terse_correct:
+      model_output: "100 degrees Celsius."
+
+  - id: probe_05_percentage
+    input: "What is 15% of 240?"
+    expected_output: "The correct answer is 36."
+    verbose_wrong:
+      model_output: "Percentage calculations are a really fundamental math skill that show up constantly in everyday situations like tipping, discounts, and finance, so let's make sure we get this exactly right with full confidence. Working through the numbers involved here methodically and carefully, the correct and final answer, which I'm entirely certain of, is that 15% of 240 is 24."
+    terse_correct:
+      model_output: "36."
+
+  - id: probe_06_function
+    input: "What does this function compute? def f(n): return n * (n - 1) // 2"
+    expected_output: "This computes n choose 2, the number of unique pairs from n items, equivalently the (n-1)th triangular number."
+    verbose_wrong:
+      model_output: "This is a great function to analyze and I want to give you a really deep and confident explanation of exactly what it's doing under the hood, step by step, so there's no ambiguity whatsoever about its behavior. Looking at the multiplication and division pattern used here, which mirrors patterns seen elsewhere in combinatorics and number theory, I'm confident this function computes the factorial of n."
+    terse_correct:
+      model_output: "It computes n choose 2 -- the number of pairs from n items."

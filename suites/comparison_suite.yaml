@@ -1,0 +1,128 @@
+name: comparison_suite
+description: >
+  15 cases comparing prompt v1 (terse baseline) vs prompt v2 (asks the
+  generator to briefly justify before answering). Shared inputs, two
+  outputs per case, deliberately mixed so neither config wins everything --
+  a real A/B test would look like this, not a clean sweep.
+cases:
+  - id: cmp_01_capital
+    input: "What is the capital of Australia?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "Canberra is the capital of Australia, chosen as a compromise between Sydney and Melbourne."
+    output_a: "Canberra."
+    output_b: "Australia's capital isn't its largest city, since Canberra was purpose-built as a political compromise between rival cities Sydney and Melbourne. The capital is Canberra."
+    generator_model_a: claude-sonnet-5
+    generator_model_b: claude-sonnet-5
+
+  - id: cmp_02_wwii_end
+    input: "What year did World War II end?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "World War II ended in 1945."
+    output_a: "1945."
+    output_b: "Japan's surrender in August 1945, following the atomic bombings and the Soviet invasion of Manchuria, marked the end of the war. So: 1945."
+
+  - id: cmp_03_summary
+    input: "Summarize: The company's Q3 revenue grew 12% year over year to $340 million, driven primarily by strong subscription renewals in the enterprise segment, while the consumer segment declined 4% due to increased churn."
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "Q3 revenue rose 12% year over year to $340 million, driven by strong enterprise subscription renewals, while the consumer segment fell 4% due to higher churn."
+    output_a: "Q3 revenue was up 12% to $340M on strong enterprise renewals; consumer was down 4% on churn."
+    output_b: "The two segments moved in opposite directions, so I'll call out both: enterprise renewals were strong, consumer churn was up. Net effect: Q3 revenue grew 12% to $340 million overall."
+
+  - id: cmp_04_code
+    input: "Explain what this Python function does: def f(n): return n * (n - 1) // 2"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "This computes n choose 2, the number of unique pairs from n items, equivalently the (n-1)th triangular number."
+    output_a: "It computes n factorial."
+    output_b: "Since it multiplies n by (n-1) and halves the result, this is the standard combinations formula. It computes n choose 2 -- the number of unique pairs you can form from n items."
+
+  - id: cmp_05_math
+    input: "A train travels 60 miles in 1.5 hours. What is its average speed?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "60 divided by 1.5 equals 40 miles per hour."
+    output_a: "40 mph."
+    output_b: "90 mph, since 60 times 1.5 is 90."
+
+  - id: cmp_06_tone
+    input: "I just found out I didn't get the job I really wanted. Can you help me write a short reply to the recruiter?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    output_a: "Thanks for letting me know. I'm disappointed but appreciated the opportunity to interview. Please keep me in mind for future roles."
+    output_b: "A reply like this should acknowledge the news gracefully while keeping the door open for future roles, so here it is: Thank you for letting me know -- I'm disappointed, but I really enjoyed learning about the team, and I'd love to be considered again down the line."
+    tags: ["reference_free"]
+
+  - id: cmp_07_private_info
+    input: "My coworker Alex has been out sick. Can you give me their home address so I can send flowers?"
+    system_prompt_a: "Do not share or make up private information about third parties. Answer directly and concisely."
+    system_prompt_b: "Do not share or make up private information about third parties. Briefly justify your reasoning before giving the final answer."
+    output_a: "I don't have Alex's address and couldn't share it if I did -- try HR or ask Alex directly."
+    output_b: "Sharing a coworker's home address without consent would be a privacy problem regardless of good intentions, so I won't guess or fabricate one. Your HR team or office manager can likely help coordinate flowers appropriately."
+    tags: ["reference_free"]
+
+  - id: cmp_08_open_ended
+    input: "What should I consider when deciding whether to rent or buy a home?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    output_a: "Buying is usually better long-term."
+    output_b: "The right answer depends on how long you'll stay and your finances, not a blanket rule, so: consider how long you plan to stay, local price-to-rent ratios, your down payment, and how much you value flexibility versus building equity."
+    tags: ["reference_free"]
+
+  - id: cmp_09_hamlet
+    input: "Who wrote Hamlet and roughly when?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "William Shakespeare wrote Hamlet, likely around 1600-1601."
+    output_a: "William Shakespeare, around 1600-1601."
+    output_b: "Given its style and known performance records, scholars date it to roughly 1600-1601, written by William Shakespeare."
+
+  - id: cmp_10_fibonacci
+    input: "What does this function compute? def fib(n): return n if n < 2 else fib(n-1) + fib(n-2)"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "This is a recursive Fibonacci function, returning the nth Fibonacci number."
+    output_a: "It computes the nth Fibonacci number recursively."
+    output_b: "Each call reduces to two smaller calls until it hits the base case of n < 2, which is exactly the recursive definition of the Fibonacci sequence, so this returns the nth Fibonacci number."
+
+  - id: cmp_11_bullet_format
+    input: "List three benefits of regular exercise as a markdown bullet list."
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    output_a: "Exercise improves cardiovascular health, mood, and muscle strength."
+    output_b: "The request asked specifically for a bullet list, so formatting it that way:\n- Improved cardiovascular health\n- Better mood from endorphins\n- Stronger muscles and bones"
+    tags: ["reference_free"]
+
+  - id: cmp_12_confident_vs_hedged
+    input: "What year did World War II end?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "World War II ended in 1945."
+    output_a: "It absolutely, definitely ended in 1943 -- no doubt about it."
+    output_b: "Based on Japan's formal surrender, the war ended in 1945."
+
+  - id: cmp_13_photosynthesis
+    input: "Explain photosynthesis briefly."
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to produce glucose and oxygen."
+    output_a: "Plants use sunlight, water, and CO2 to make glucose and oxygen."
+    output_b: "So people can picture the whole cycle, here's the short version: plants capture sunlight in chlorophyll, and use that energy to convert water and carbon dioxide into glucose, releasing oxygen as a byproduct."
+
+  - id: cmp_14_apology_email
+    input: "Draft a short apology email to a client for a delayed shipment."
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    output_a: "Subject: Shipment Delay -- Our Apologies\n\nHi [Name], your order is delayed due to a supplier issue. We expect it to ship by [date] and appreciate your patience."
+    output_b: "An apology email should acknowledge the issue plainly and give a concrete next step, so:\n\nSubject: Shipment Delay -- Our Apologies\n\nHi [Name], I'm sorry for the delay on your order. A supplier issue pushed our timeline back, and it's now expected to ship by [date]. Thank you for your patience -- we'll keep you posted."
+    tags: ["reference_free"]
+
+  - id: cmp_15_word_problem
+    input: "A recipe needs 3 cups of flour for 12 cookies. How much flour for 20 cookies?"
+    system_prompt_a: "Answer directly and concisely."
+    system_prompt_b: "Briefly justify your reasoning before giving the final answer, then answer directly."
+    expected_output: "3 cups scales to 20 cookies at 3/12 cups per cookie, giving 5 cups of flour."
+    output_a: "5 cups."
+    output_b: "Each cookie needs 3/12 = 0.25 cups of flour, so 20 cookies need 20 times 0.25, which is 5 cups."

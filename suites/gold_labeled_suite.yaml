@@ -1,0 +1,89 @@
+name: gold_labeled_suite
+description: >
+  12 cases with a human-assigned gold_score (1-5, matching the rubric scale)
+  and gold_label (pass/fail at the same 3.5 threshold as the rubric), held
+  out from the main suites specifically for validating judge agreement.
+cases:
+  - id: gold_01
+    input: "What is the boiling point of water at sea level in Celsius?"
+    expected_output: "Water boils at 100 degrees Celsius at sea level."
+    model_output: "At sea level, water boils at 100 degrees Celsius (212 Fahrenheit)."
+    gold_score: 5
+    gold_label: "pass"
+
+  - id: gold_02
+    input: "What is the boiling point of water at sea level in Celsius?"
+    expected_output: "Water boils at 100 degrees Celsius at sea level."
+    model_output: "Water boils at around 90 degrees Celsius at sea level."
+    gold_score: 1.5
+    gold_label: "fail"
+
+  - id: gold_03
+    input: "Summarize: The bridge was closed for six months for structural repairs after inspectors found corrosion in two support cables."
+    expected_output: "The bridge closed for six months for repairs after inspectors found corroded support cables."
+    model_output: "The bridge closed for repairs for half a year after inspectors discovered corrosion in support cables."
+    gold_score: 4.5
+    gold_label: "pass"
+
+  - id: gold_04
+    input: "Summarize: The bridge was closed for six months for structural repairs after inspectors found corrosion in two support cables."
+    expected_output: "The bridge closed for six months for repairs after inspectors found corroded support cables."
+    model_output: "There was some construction on a bridge recently."
+    gold_score: 1.5
+    gold_label: "fail"
+
+  - id: gold_05
+    input: "What is 15% of 240?"
+    expected_output: "15% of 240 is 36."
+    model_output: "15% of 240 is 36, since 0.15 times 240 equals 36."
+    gold_score: 5
+    gold_label: "pass"
+
+  - id: gold_06
+    input: "What is 15% of 240?"
+    expected_output: "15% of 240 is 36."
+    model_output: "15% of 240 is 24."
+    gold_score: 1
+    gold_label: "fail"
+
+  - id: gold_07
+    input: "Explain in one or two sentences why the sky is blue."
+    expected_output: "The sky is blue because air molecules scatter shorter blue wavelengths of sunlight more than longer wavelengths, a process called Rayleigh scattering."
+    model_output: "Air molecules scatter blue light more than other colors because it has a shorter wavelength, which is why the sky looks blue -- this is called Rayleigh scattering."
+    gold_score: 5
+    gold_label: "pass"
+
+  - id: gold_08
+    input: "Explain in one or two sentences why the sky is blue."
+    expected_output: "The sky is blue because air molecules scatter shorter blue wavelengths of sunlight more than longer wavelengths, a process called Rayleigh scattering."
+    model_output: "The sky is blue because it reflects the color of the ocean."
+    gold_score: 1
+    gold_label: "fail"
+
+  - id: gold_09
+    input: "Write a one-sentence professional out-of-office reply."
+    model_output: "I'm currently out of office with limited access to email and will respond to your message when I return on Monday."
+    gold_score: 4.5
+    gold_label: "pass"
+    tags: ["reference_free"]
+
+  - id: gold_10
+    input: "Write a one-sentence professional out-of-office reply."
+    model_output: "not here lol, message me later maybe"
+    gold_score: 1.5
+    gold_label: "fail"
+    tags: ["reference_free"]
+
+  - id: gold_11
+    input: "A recipe needs 2 eggs per 8 pancakes. How many eggs for 20 pancakes?"
+    expected_output: "2/8 eggs per pancake times 20 equals 5 eggs."
+    model_output: "Each pancake needs 0.25 eggs, so 20 pancakes need 5 eggs."
+    gold_score: 5
+    gold_label: "pass"
+
+  - id: gold_12
+    input: "A recipe needs 2 eggs per 8 pancakes. How many eggs for 20 pancakes?"
+    expected_output: "2/8 eggs per pancake times 20 equals 5 eggs."
+    model_output: "You'd need about 8 eggs for 20 pancakes."
+    gold_score: 1.5
+    gold_label: "fail"

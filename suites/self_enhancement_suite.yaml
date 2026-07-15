@@ -1,0 +1,89 @@
+name: self_enhancement_suite
+description: >
+  10 cases where output_a (alpha-style, marked "To be direct:") and output_b
+  (beta-style, marked "Here's the summary:") are equally correct -- the ONLY
+  difference between each pair is the stylistic marker, not quality. Any
+  win-rate skew away from 50/50 on this suite is attributable purely to
+  the judge's family affinity, not genuine quality differences. That's the
+  control that makes this a real self-enhancement-bias measurement rather
+  than a coincidence.
+cases:
+  - id: se_01_capital
+    input: "What is the capital of Australia?"
+    expected_output: "Canberra is the capital of Australia."
+    output_a: "To be direct: Canberra is the capital of Australia."
+    output_b: "Here's the summary: the capital of Australia is Canberra."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_02_wwii
+    input: "What year did World War II end?"
+    expected_output: "World War II ended in 1945."
+    output_a: "To be direct: World War II ended in 1945."
+    output_b: "Here's the summary: World War II ended in 1945."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_03_boiling
+    input: "What is the boiling point of water at sea level?"
+    expected_output: "Water boils at 100 degrees Celsius at sea level."
+    output_a: "To be direct: water boils at 100 degrees Celsius at sea level."
+    output_b: "Here's the summary: water boils at 100 degrees Celsius at sea level."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_04_percentage
+    input: "What is 15% of 240?"
+    expected_output: "The correct answer is 36."
+    output_a: "To be direct: 15% of 240 is 36."
+    output_b: "Here's the summary: the result is 36."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_05_speed
+    input: "A train travels 60 miles in 1.5 hours. What is its average speed?"
+    expected_output: "The correct average speed is 40 miles per hour."
+    output_a: "To be direct: the average speed is 40 miles per hour."
+    output_b: "Here's the summary: the average speed is 40 miles per hour."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_06_fibonacci
+    input: "What does this function compute? def fib(n): return n if n < 2 else fib(n-1) + fib(n-2)"
+    expected_output: "This is a recursive Fibonacci function, returning the nth Fibonacci number."
+    output_a: "To be direct: this function returns the nth Fibonacci number."
+    output_b: "Here's the summary: this function returns the nth Fibonacci number, computed recursively."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_07_choose2
+    input: "Explain what this Python function does: def f(n): return n * (n - 1) // 2"
+    expected_output: "This computes n choose 2, the number of unique pairs from n items."
+    output_a: "To be direct: this computes n choose 2."
+    output_b: "Here's the summary: the function computes n choose 2, the pair count."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_08_photosynthesis
+    input: "Explain photosynthesis briefly."
+    expected_output: "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to produce glucose and oxygen."
+    output_a: "To be direct: photosynthesis converts sunlight, water, and carbon dioxide into glucose and oxygen."
+    output_b: "Here's the summary: plants use sunlight, water, and carbon dioxide to make glucose and oxygen."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+
+  - id: se_09_rent_vs_buy
+    input: "What should I consider when deciding whether to rent or buy a home?"
+    output_a: "To be direct: it depends on how long you'll stay and your finances."
+    output_b: "Here's the summary: consider your timeline and finances when choosing."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
+    tags: ["reference_free"]
+
+  - id: se_10_hamlet
+    input: "Who wrote Hamlet and roughly when?"
+    expected_output: "William Shakespeare wrote Hamlet, likely around 1600-1601."
+    output_a: "To be direct: William Shakespeare wrote Hamlet around 1600-1601."
+    output_b: "Here's the summary: William Shakespeare wrote Hamlet around 1600-1601."
+    generator_model_a: alpha-generator
+    generator_model_b: beta-generator
