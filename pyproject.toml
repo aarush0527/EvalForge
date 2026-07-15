@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "judge-pipeline"
+version = "0.1.0"
+description = "LLM-as-judge evaluation pipeline with bias mitigation and validation"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+providers = ["groq>=0.4", "anthropic>=0.40", "openai>=1.0"]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

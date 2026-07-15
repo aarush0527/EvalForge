@@ -1,0 +1,13 @@
+pydantic>=2.0
+pyyaml>=6.0
+numpy>=1.24
+
+# Only needed if you point a judge_config.yaml / generator_config.yaml at a real provider.
+# groq is this project's primary, free-tier-friendly option -- get a free key (no credit
+# card) at https://console.groq.com/keys. anthropic/openai are optional alternatives.
+groq>=0.4
+anthropic>=0.40
+openai>=1.0
+
+# Dev/test only:
+pytest>=7.0
