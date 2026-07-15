@@ -17,9 +17,8 @@ from .judge import Judge
 from .schema import TestCase
 
 
-# --------------------------------------------------------------------------
+
 # 1. Gold-label agreement
-# --------------------------------------------------------------------------
 
 def cohen_kappa(judge_labels: list[str], gold_labels: list[str]) -> Optional[float]:
     """Standard Cohen's kappa for two raters over categorical labels."""
@@ -96,9 +95,7 @@ def evaluate_gold_agreement(judge: Judge, cases: list[TestCase]) -> GoldAgreemen
     )
 
 
-# --------------------------------------------------------------------------
 # 2. Test-retest consistency
-# --------------------------------------------------------------------------
 
 class TestRetestReport(BaseModel):
     n_cases: int
@@ -130,15 +127,13 @@ def evaluate_test_retest(judge: Judge, cases: list[TestCase], n_reruns: int = 3)
     )
 
 
-# --------------------------------------------------------------------------
 # 3. Adversarial probes
-# --------------------------------------------------------------------------
 
 class AdversarialProbeReport(BaseModel):
     n_pairs: int
     n_fooled: int
     fooled_rate: Optional[float] = None
-    mean_margin: Optional[float] = None  # mean(terse_correct_score - verbose_wrong_score)
+    mean_margin: Optional[float] = None  
     details: list[dict] = []
 
 
