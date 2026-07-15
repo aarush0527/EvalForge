@@ -1,0 +1,24 @@
+{
+  "n_cases": 10,
+  "same_family": {
+    "judge_model": "simulated:simulated-judge-alpha-family",
+    "win_rate_a": 1.0,
+    "win_rate_b": 0.0,
+    "tie_rate": 0.0
+  },
+  "cross_family": {
+    "judge_model": "simulated:simulated-judge-gamma-family",
+    "win_rate_a": 0.0,
+    "win_rate_b": 0.0,
+    "tie_rate": 1.0
+  },
+  "ensemble_alpha_plus_beta": {
+    "judges": [
+      "simulated:simulated-judge-alpha-family",
+      "simulated:simulated-judge-beta-family"
+    ],
+    "win_rate_a": 0.0,
+    "win_rate_b": 0.0,
+    "tie_rate": 1.0
+  }
+}

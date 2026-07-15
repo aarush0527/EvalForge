@@ -1,0 +1,67 @@
+{
+  "judge_model": "groq:openai/gpt-oss-120b",
+  "mitigations": true,
+  "gold_agreement": {
+    "n_cases": 12,
+    "kappa_pass_fail": 1.0,
+    "pearson_score": 0.9500391692792673,
+    "spearman_score": 0.8111888111888113,
+    "raw_agreement_rate": 1.0
+  },
+  "test_retest": {
+    "n_cases": 5,
+    "n_reruns": 3,
+    "pass_fail_flip_rate": 0.0,
+    "mean_score_stddev_within_case": 0.10785793124908957
+  },
+  "adversarial_probes": {
+    "n_pairs": 6,
+    "n_fooled": 0,
+    "fooled_rate": 0.0,
+    "mean_margin": 3.15,
+    "details": [
+      {
+        "case_id": "probe_01_capital_verbose_wrong",
+        "verbose_wrong_score": 1.9,
+        "terse_correct_score": 4.33,
+        "margin": 2.43,
+        "fooled": false
+      },
+      {
+        "case_id": "probe_02_wwii_verbose_wrong",
+        "verbose_wrong_score": 2.0,
+        "terse_correct_score": 5.0,
+        "margin": 3.0,
+        "fooled": false
+      },
+      {
+        "case_id": "probe_03_speed_verbose_wrong",
+        "verbose_wrong_score": 1.5,
+        "terse_correct_score": 5.0,
+        "margin": 3.5,
+        "fooled": false
+      },
+      {
+        "case_id": "probe_04_boiling_point_verbose_wrong",
+        "verbose_wrong_score": 1.8,
+        "terse_correct_score": 5.0,
+        "margin": 3.2,
+        "fooled": false
+      },
+      {
+        "case_id": "probe_05_percentage_verbose_wrong",
+        "verbose_wrong_score": 1.6,
+        "terse_correct_score": 5.0,
+        "margin": 3.4,
+        "fooled": false
+      },
+      {
+        "case_id": "probe_06_function_verbose_wrong",
+        "verbose_wrong_score": 1.3,
+        "terse_correct_score": 4.67,
+        "margin": 3.37,
+        "fooled": false
+      }
+    ]
+  }
+}
