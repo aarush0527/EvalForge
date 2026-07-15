@@ -54,12 +54,7 @@ class Judge:
         latency = resp.latency_ms
 
         def retry_fn(error: str) -> str:
-            # The most common real-world cause of a parse failure is a
-            # truncated response (ran out of completion budget, possibly to
-            # a reasoning model's hidden "thinking" -- see GroqProvider),
-            # not a formatting mistake the model can just fix in place.
-            # Retrying with the SAME budget reproduces the same truncation,
-            # so give the retry meaningfully more room.
+ 
             retry_max_tokens = self.max_tokens * 2
             prev_response_snippet = raw if len(raw) <= 1500 else (raw[:1500] + " ...[truncated]")
             fix_user = (
@@ -93,9 +88,7 @@ class Judge:
         return (result.data if result.ok else None, result.raw_response, tokens, latency,
                 result.retries, result.ok)
 
-    # ---------------------------------------------------------------- #
     # Pointwise
-    # ---------------------------------------------------------------- #
 
     def judge_pointwise(self, case: TestCase) -> Verdict:
         rubric = self._rubric_for(case)
@@ -124,9 +117,7 @@ class Judge:
             raw_response=raw, parse_retries=retries,
         )
 
-    # ---------------------------------------------------------------- #
     # Pairwise
-    # ---------------------------------------------------------------- #
 
     def _judge_pairwise_one_order(self, case: TestCase, order: Literal["ab", "ba"]) -> Verdict:
         rubric = self._rubric_for(case)
@@ -145,8 +136,7 @@ class Judge:
             )
 
         per_criterion = [CriterionScore(**pc) for pc in data["per_criterion"]]
-        raw_winner = data.get("winner", "tie")  # "first" | "second" | "tie"
-        # Map "first"/"second" -> a/b using the order this call used.
+        raw_winner = data.get("winner", "tie") 
         if raw_winner == "first":
             winner = "a" if order == "ab" else "b"
         elif raw_winner == "second":
@@ -179,15 +169,14 @@ class Judge:
             reconciled = winner_ab or "tie"
             flipped = False
         else:
-            # Orders disagree on the winner -> don't trust either single
-            # order; report as inconsistent rather than picking one.
+
             reconciled = "inconsistent"
             flipped = True
 
         return PairwiseResult(
             case_id=case.id, verdict_ab=v_ab, verdict_ba=v_ba,
             winner_ab=winner_ab, winner_ba=winner_ba,
-            flipped=flipped, reconciled_winner=reconciled,  # type: ignore[arg-type]
+            flipped=flipped, reconciled_winner=reconciled,  
         )
 
 
@@ -206,8 +195,7 @@ def ensemble_reconcile(per_judge_results: list[PairwiseResult]) -> str:
         return "inconsistent"
     counts = Counter(votes)
     top_winner, top_count = counts.most_common(1)[0]
-    # A genuine tie in the vote itself (e.g. 1-1 between two judges) is
-    # reported as "tie" rather than arbitrarily picking the first counted.
+
     if list(counts.values()).count(top_count) > 1:
         return "tie"
     return top_winner
