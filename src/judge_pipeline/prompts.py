@@ -23,12 +23,7 @@ MITIGATION_MARKER = "ANTI_BIAS_MITIGATIONS_ON"
 
 
 def _conciseness_block() -> str:
-    # Always included, regardless of mitigations on/off -- this is a format
-    # constraint, not a bias-mitigation instruction, and it directly reduces
-    # how many completion tokens the actual JSON answer needs, independent
-    # of the reasoning-token fix in GroqProvider. Schema is unchanged: every
-    # field the assignment requires (per-criterion score + rationale +
-    # overall) is still present, just shorter.
+
     return (
         "Be concise: each criterion's rationale must be ONE short sentence (<=20 words) "
         "citing specific evidence. overall_rationale must be ONE short sentence (<=25 words). "
