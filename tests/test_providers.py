@@ -73,13 +73,6 @@ def test_groq_provider_default_family_inferred(monkeypatch):
     p = GroqProvider(model="qwen/qwen3-32b")
     assert p.family == "qwen"
 
-
-# --- Regression tests for the truncation bug: gpt-oss on Groq is a
-# reasoning model that can burn its entire completion budget on hidden
-# "thinking" before writing any visible answer, especially on the more
-# demanding pairwise prompt. Root cause was (a) sending max_tokens instead
-# of max_completion_tokens, and (b) never controlling reasoning_effort. ---
-
 def test_reasoning_kwargs_gpt_oss_gets_low_effort_and_hides_reasoning():
     assert _reasoning_kwargs("openai/gpt-oss-120b", None) == {
         "reasoning_effort": "low", "include_reasoning": False,
@@ -97,8 +90,7 @@ def test_reasoning_kwargs_qwen3_disables_reasoning_by_default():
 
 
 def test_reasoning_kwargs_non_reasoning_model_gets_nothing():
-    # llama-3.3-70b-versatile doesn't support reasoning_effort; sending it
-    # would risk a 400 from Groq's API, so nothing should be attached.
+
     assert _reasoning_kwargs("llama-3.3-70b-versatile", None) == {}
 
 
@@ -174,7 +166,7 @@ def test_judge_retry_doubles_token_budget_on_parse_failure(monkeypatch):
     def fake_create(**kwargs):
         calls.append(kwargs["max_completion_tokens"])
         if len(calls) == 1:
-            return _FakeResponse('{"per_criterion": [{"criterion": "c", "score": 3')  # truncated, invalid
+            return _FakeResponse('{"per_criterion": [{"criterion": "c", "score": 3') 
         return _FakeResponse(
             '{"per_criterion": [{"criterion": "c", "score": 3, "rationale": "r"}], '
             '"overall_score": 3, "overall_rationale": "ok", "passed": true, "flags": []}'
@@ -186,4 +178,4 @@ def test_judge_retry_doubles_token_budget_on_parse_failure(monkeypatch):
     verdict = judge.judge_pointwise(case)
 
     assert verdict.is_judge_error is False
-    assert calls == [1000, 2000]  # retry used double the original budget
+    assert calls == [1000, 2000]  
