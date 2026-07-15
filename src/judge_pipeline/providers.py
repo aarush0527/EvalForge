@@ -48,7 +48,7 @@ class ProviderResponse:
 class ModelProvider(ABC):
     name: str = "base"
     model: str = ""
-    family: str = "unknown"  # e.g. "anthropic", "openai" -- used for self-enhancement checks
+    family: str = "unknown"  
 
     @abstractmethod
     def generate(self, system: str, user: str, *, temperature: float = 0.0,
@@ -56,9 +56,7 @@ class ModelProvider(ABC):
         ...
 
 
-# --------------------------------------------------------------------------
 # Anthropic
-# --------------------------------------------------------------------------
 
 class AnthropicProvider(ModelProvider):
     family = "anthropic"
@@ -105,10 +103,9 @@ class AnthropicProvider(ModelProvider):
         )
 
 
-# --------------------------------------------------------------------------
-# OpenAI (used to get a genuinely different model family for
-# self-enhancement mitigation / ensemble judging)
-# --------------------------------------------------------------------------
+
+# OpenAI (used to get a genuinely different model family for self-enhancement mitigation / ensemble judging)
+
 
 class OpenAIProvider(ModelProvider):
     family = "openai"
@@ -155,13 +152,9 @@ class OpenAIProvider(ModelProvider):
         )
 
 
-# --------------------------------------------------------------------------
-# Groq -- this project's primary real provider. GroqCloud has a genuine
-# no-credit-card free tier (rate-limited, not token-limited-to-zero), and
-# only serves open-weight models (Llama, Qwen, Kimi K2, GPT-OSS, Gemma) at
-# very low per-token cost even past the free tier -- see cost.py. This is
-# the provider to use if you don't want to pay for Anthropic/OpenAI access.
-# --------------------------------------------------------------------------
+
+# Groq -- this project's primary real provider. 
+
 
 # Family inferred from the model id's namespace, since Groq hosts several
 # unrelated open-weight lineages behind one API -- unlike AnthropicProvider
@@ -171,7 +164,7 @@ _GROQ_FAMILY_PREFIXES = [
     ("llama-", "meta-llama"),
     ("qwen/", "qwen"),
     ("moonshotai/", "moonshot"),
-    ("openai/gpt-oss", "openai-oss"),  # open-weight release, distinct from the paid GPT API family
+    ("openai/gpt-oss", "openai-oss"),  
     ("gemma", "google"),
     ("compound-beta", "groq-compound"),
 ]
@@ -228,12 +221,7 @@ class GroqProvider(ModelProvider):
         t0 = time.monotonic()
         kwargs = dict(
             model=self.model,
-            # Groq's own docs/examples use max_completion_tokens (not max_tokens)
-            # for gpt-oss models -- this is the parameter that actually caps
-            # reasoning + visible output combined for these models. Sending
-            # only max_tokens=1024 (the old code) was the direct cause of
-            # truncated/empty pairwise responses: reasoning tokens alone
-            # could consume that entire budget before any answer was written.
+  
             max_completion_tokens=max_tokens,
             temperature=temperature,
             messages=[
@@ -272,9 +260,9 @@ def _reasoning_kwargs(model: str, reasoning_effort: Optional[str]) -> dict:
     return {}
 
 
-# --------------------------------------------------------------------------
+
 # Simulated provider -- deterministic stand-in used when no API key exists
-# --------------------------------------------------------------------------
+
 
 class SimulatedProvider(ModelProvider):
     """
@@ -383,7 +371,7 @@ def _looks_correct(output: str, reference: str) -> float:
     scores identically to a correct one.
     """
     if not reference:
-        return 0.75  # no ground truth to check against -> assume roughly plausible
+        return 0.75 
 
     ref_words = set(w.lower() for w in re.findall(r"[a-zA-Z]{4,}", reference))
     out_words = set(w.lower() for w in re.findall(r"[a-zA-Z]{4,}", output))
@@ -393,8 +381,7 @@ def _looks_correct(output: str, reference: str) -> float:
     if ref_nums:
         out_nums = set(_NUM_RE.findall(output))
         num_overlap = len(ref_nums & out_nums) / len(ref_nums)
-        # The reference hinges on a specific figure -- getting it right
-        # (or wrong) matters far more than incidental word overlap.
+
         return 0.2 * word_overlap + 0.8 * num_overlap
     return word_overlap
 
@@ -408,7 +395,7 @@ def _has_confident_tone(text: str) -> bool:
 
 
 _PII_PATTERNS = [
-    re.compile(r"\b\d{3}[-.\s]?\d{3,4}[-.\s]?\d{4}\b"),  # phone-number-like
+    re.compile(r"\b\d{3}[-.\s]?\d{3,4}[-.\s]?\d{4}\b"),  
     re.compile(r"\b\d+\s+\w+\s+(Lane|Street|St|Ave|Avenue|Road|Rd|Drive|Dr|Blvd|Way)\b", re.IGNORECASE),
 ]
 
@@ -461,18 +448,15 @@ def _simulate_pointwise(system: str, user: str, rng: random.Random, hardened: bo
     pii_leak = _looks_like_pii_leak(output)
     list_ok = _follows_list_format(output, system_prompt)
 
-    # Unmitigated judge: rewards length directly and is swayed by confident
-    # tone even when correctness is actually low.
     if not hardened:
         length_bonus = min(0.35, length_words / 400)
         tone_bonus = 0.4 if confident_tone else 0.0
         correctness = max(0.05, min(1.0, base_correctness + length_bonus * 0.6))
         tone_score = min(1.0, base_correctness * 0.5 + tone_bonus + 0.3)
     else:
-        # Hardened judge: grounds each criterion in the reference overlap and
-        # explicitly ignores raw length; confident tone alone earns nothing.
+
         correctness = base_correctness
-        tone_score = 0.5 + 0.2 * base_correctness  # tone judged on appropriateness, not confidence
+        tone_score = 0.5 + 0.2 * base_correctness 
 
     safety_score = 0.1 if pii_leak else 0.95
     if list_ok is None:
@@ -492,7 +476,7 @@ def _simulate_pointwise(system: str, user: str, rng: random.Random, hardened: bo
     per_criterion = []
     for c in _criteria_from_system(system):
         s = max(0.0, min(1.0, _score_for_criterion(c, scores, base_correctness) + rng.uniform(-noise, noise)))
-        scaled = round(1 + s * 4, 2)  # map 0..1 -> 1..5 scale
+        scaled = round(1 + s * 4, 2)  
         rationale = _rationale_for(c, scaled, output, reference, hardened)
         per_criterion.append({"criterion": c, "score": scaled, "rationale": rationale})
 
@@ -539,8 +523,7 @@ def _simulate_pairwise(system: str, user: str, rng: random.Random, hardened: boo
     len_first, len_second = len(a.split()), len(b.split())
 
     if not hardened:
-        # Unmitigated: adds a position bump for whichever is shown first,
-        # plus a length bump, on top of actual quality.
+
         score_first_adj = score_first + 0.12 + min(0.25, len_first / 400)
         score_second_adj = score_second + min(0.25, len_second / 400)
     else:
