@@ -1,0 +1,11 @@
+pydantic>=2.0
+pyyaml>=6.0
+numpy>=1.24
+
+[dev]
+pytest>=7.0
+
+[providers]
+groq>=0.4
+anthropic>=0.40
+openai>=1.0
