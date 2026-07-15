@@ -1,5 +1,12 @@
 # EvalForge
 
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen)]()
+[![Code Style](https://img.shields.io/badge/Style-Black-black)]()
+[![Status](https://img.shields.io/badge/Status-Active-success)]()
+[![Evaluation](https://img.shields.io/badge/Evaluation-LLM--as--a--Judge-orange)]()
+
 > A production-ready LLM evaluation framework for structured, bias-aware assessment of Large Language Model outputs.
 
 EvalForge is a modular evaluation pipeline that automates the assessment of LLM-generated responses using configurable LLM judges, explicit rubrics, and reproducible evaluation workflows. It supports structured pointwise and pairwise judging, comprehensive validation, adversarial testing, and systematic bias analysis to measure evaluation reliability beyond simple benchmark scores.
